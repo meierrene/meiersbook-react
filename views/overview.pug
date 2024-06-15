@@ -1,0 +1,24 @@
+extends base
+
+mixin postsNumber(number)
+  - if(number > 0)
+    h1.primary-heading= `You have ${number} post${number===1?'':'s'}:`
+  - else 
+    h1.primary-heading= `You have no posts! How about to create one?`
+
+
+
+block content
+  .front-panel
+    a.btn.compose-btn(href="/newpost") New post
+    +postsNumber(posts.length)
+  .card-container
+    each post in posts
+      a.post-link(href=post.id)
+        .card
+          - const date = post.createdAt.toLocaleString('en-uk',{hour:'numeric',minute:'numeric',day:'numeric',month:'numeric',year:'numeric'})
+          .card-image
+            - if(post.image)
+              img(src=`/img/posts/${post.image}`)
+          h1.title-heading= post.title
+          .date-created= `Created at: ${date}` 
